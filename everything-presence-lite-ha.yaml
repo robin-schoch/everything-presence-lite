@@ -47,6 +47,10 @@ globals:
     type: unsigned long
     restore_value: no
     initial_value: '0'
+  - id: pos_update_time
+    type: unsigned long
+    restore_value: no
+    initial_value: '0'
 
 i2c:
  sda: 21
@@ -446,12 +450,17 @@ uart:
           p3_x = p3_x * -1;
           float max_distance = float(id(distance).state) * 10;
           
-          id(target1_x).publish_state(p1_x);
-          id(target1_y).publish_state(p1_y);
-          id(target2_x).publish_state(p2_x);
-          id(target2_y).publish_state(p2_y);
-          id(target3_x).publish_state(p3_x);
-          id(target3_y).publish_state(p3_y);
+          pos_update_time
+          
+          if ((millis() - id(pos_update_time)) >= 500) {
+            id(target1_x).publish_state(p1_x);
+            id(target1_y).publish_state(p1_y);
+            id(target2_x).publish_state(p2_x);
+            id(target2_y).publish_state(p2_y);
+            id(target3_x).publish_state(p3_x);
+            id(target3_y).publish_state(p3_y);
+            id(pos_update_time) = millis();
+          };
 
           bool zone_one_active = (
             (p1_distance > 0 &&
