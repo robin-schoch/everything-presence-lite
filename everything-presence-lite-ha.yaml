@@ -314,20 +314,7 @@ sensor:
     unit_of_measurement: 'mm'
     state_class: measurement
     device_class: distance
-  - platform: template
-    name: "Target 1 Speed"
-    id: target1_speed
-    accuracy_decimals: 2
-    unit_of_measurement: 'm/s'
-    state_class: measurement
-    device_class: speed
-  - platform: template
-    name: "Target 1 Resolution"
-    id: target1_resolution
-    accuracy_decimals: 0
-    unit_of_measurement: 'mm'
-    state_class: measurement
-    device_class: distance
+
   - platform: template
     name: "Target 2 X"
     id: target2_x
@@ -342,20 +329,7 @@ sensor:
     unit_of_measurement: 'mm'
     state_class: measurement
     device_class: distance
-  - platform: template
-    name: "Target 2 Speed"
-    id: target2_speed
-    accuracy_decimals: 2
-    unit_of_measurement: 'm/s'
-    state_class: measurement
-    device_class: speed
-  - platform: template
-    name: "Target 2 Resolution"
-    id: target2_resolution
-    accuracy_decimals: 0
-    unit_of_measurement: 'mm'
-    state_class: measurement
-    device_class: distance
+
   - platform: template
     name: "Target 3 X"
     id: target3_x
@@ -370,78 +344,6 @@ sensor:
     unit_of_measurement: 'mm'
     state_class: measurement
     device_class: distance
-  - platform: template
-    name: "Target 3 Speed"
-    id: target3_speed
-    accuracy_decimals: 2
-    unit_of_measurement: 'm/s'
-    state_class: measurement
-    device_class: speed
-  - platform: template
-    name: "Target 3 Resolution"
-    id: target3_resolution
-    accuracy_decimals: 0
-    unit_of_measurement: 'mm'
-    state_class: measurement
-    device_class: distance
-  - platform: template
-    name: "Target 1 Angle"
-    id: target1_angle
-    accuracy_decimals: 0
-    unit_of_measurement: '°'
-    state_class: measurement
-  - platform: template
-    name: "Target 2 Angle"
-    id: target2_angle
-    accuracy_decimals: 0
-    unit_of_measurement: '°'
-    state_class: measurement
-  - platform: template
-    name: "Target 3 Angle"
-    id: target3_angle
-    accuracy_decimals: 0
-    unit_of_measurement: '°'
-    state_class: measurement
-  - platform: template
-    name: "Target 1 Distance"
-    id: target1_distance
-    accuracy_decimals: 0
-    unit_of_measurement: 'mm'
-    state_class: measurement
-    device_class: distance
-  - platform: template
-    name: "Target 2 Distance"
-    id: target2_distance
-    accuracy_decimals: 0
-    unit_of_measurement: 'mm'
-    state_class: measurement
-    device_class: distance
-  - platform: template
-    name: "Target 3 Distance"
-    id: target3_distance
-    accuracy_decimals: 0
-    unit_of_measurement: 'mm'
-    state_class: measurement
-    device_class: distance
-  - platform: template
-    name: "Zone 1 Target Count"
-    id: zone1_target_count
-    accuracy_decimals: 0
-  - platform: template
-    name: "Zone 2 Target Count"
-    id: zone2_target_count
-    accuracy_decimals: 0
-    disabled_by_default: true
-  - platform: template
-    name: "Zone 3 Target Count"
-    id: zone3_target_count
-    accuracy_decimals: 0
-    disabled_by_default: true
-  - platform: template
-    name: "Zone 4 Target Count"
-    id: zone4_target_count
-    accuracy_decimals: 0
-    disabled_by_default: true
 
 uart:
   id: uart_bus
@@ -466,7 +368,7 @@ uart:
      delimiter: [0X55, 0XCC]
     sequence:
       - lambda: |-
-          if ((millis() - id(mmwave_update_time)) <= 1000) {
+          if ((millis() - id(mmwave_update_time)) <= 500) {
             return;
           };
           id(mmwave_update_time) = millis();
@@ -543,6 +445,13 @@ uart:
           p2_x = p2_x * -1;
           p3_x = p3_x * -1;
           float max_distance = float(id(distance).state) * 10;
+          
+          id(target1_x).publish_state(p1_x);
+          id(target1_y).publish_state(p1_y);
+          id(target2_x).publish_state(p2_x);
+          id(target2_y).publish_state(p2_y);
+          id(target3_x).publish_state(p3_x);
+          id(target3_y).publish_state(p3_y);
 
           bool zone_one_active = (
             (p1_distance > 0 &&
