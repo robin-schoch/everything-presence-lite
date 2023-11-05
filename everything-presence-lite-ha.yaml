@@ -608,10 +608,6 @@ uart:
           );
           id(zone4_occupancy).publish_state(zone_four_active);
 
-
-
-
-
 button:
   - platform: restart
     icon: mdi:power-cycle
