@@ -372,7 +372,7 @@ uart:
      delimiter: [0X55, 0XCC]
     sequence:
       - lambda: |-
-          if ((millis() - id(mmwave_update_time)) <= 50) {
+          if ((millis() - id(mmwave_update_time)) <= 25) {
             return;
           };
           id(mmwave_update_time) = millis();
