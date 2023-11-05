@@ -499,7 +499,7 @@ uart:
             (p3_y >= id(zone3_begin_y).state && p3_y <= id(zone3_end_y).state)
             )
           );
-          id(zone3_occupancy).publish_state(zone_three_active);
+          id(zone3_occupancy).publish_state(!id(zone3_occupancy).state);
 
           bool zone_four_active = (
             (p1_distance > 0 &&
