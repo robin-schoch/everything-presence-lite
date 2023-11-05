@@ -539,9 +539,9 @@ uart:
           float p2_distance = sqrt(p2_x * p2_x + p2_y * p2_y);
           float p3_distance = sqrt(p3_x * p3_x + p3_y * p3_y);
           
-          p1_x = p1_x * -1
-          p2_x = p2_x * -1
-          p3_x = p3_x * -1
+          p1_x = p1_x * -1;
+          p2_x = p2_x * -1;
+          p3_x = p3_x * -1;
           float max_distance = float(id(distance).state) * 10;
 
           bool zone_one_active = (
